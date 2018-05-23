@@ -3,18 +3,26 @@ package main
 
 import (
 	"fmt"
+	"strconv"
 )
 
-func someSubRoutine(threadNumber int) {
-	for i := 0; i < 1000; i++ {
-		fmt.Println(threadNumber, ":\t", i)
+func someSubRoutine(messages chan <- string, threadNumber int) {
+	for i := 0; i < 100; i++ {
+		go func() {
+			s := strconv.Itoa(threadNumber) + ": " + strconv.Itoa(i)
+			fmt.Println("message in ", s)
+			messages <- s}()
 	}
 }
 
 func main() {
-	go someSubRoutine(0)
-	go someSubRoutine(1)
+	messages := make(chan string)
+	go someSubRoutine(messages, 0)
+	go someSubRoutine(messages, 1)
 
-	var input string
-	fmt.Scanln(&input)
+	for i :=0; i < 100; i++ {
+		msg := <-messages
+
+		fmt.Println("message out", msg)
+	}
 }
