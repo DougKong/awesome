@@ -8,10 +8,9 @@ import (
 
 func someSubRoutine(messages chan <- string, threadNumber int) {
 	for i := 0; i < 100; i++ {
-		go func() {
 			s := strconv.Itoa(threadNumber) + ": " + strconv.Itoa(i)
 			fmt.Println("message in ", s)
-			messages <- s}()
+			messages <- s
 	}
 }
 
