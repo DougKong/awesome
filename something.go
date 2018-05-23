@@ -19,7 +19,7 @@ func main() {
 	go someSubRoutine(messages, 0)
 	go someSubRoutine(messages, 1)
 
-	for i :=0; i < 100; i++ {
+	for i :=0; i < 1000; i++ {
 		msg := <-messages
 
 		fmt.Println("message out", msg)
